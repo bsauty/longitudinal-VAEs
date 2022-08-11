@@ -1,0 +1,8 @@
+name: deformetrica
+dependencies:
+  - python=3.7
+  - pip
+  - pip:
+    - -r requirements.txt
+    - cmake>=3.10
+    - h5py==2.9.0  # fix: h5py conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated

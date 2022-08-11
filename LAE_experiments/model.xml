@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<data-set deformetrica-min-version="3.0.0">
+	<model-type>LongitudinalAutoEncoder</model-type>
+	<initial-time-shift-std>9</initial-time-shift-std>
+	<initial-log-acceleration-std>0.8</initial-log-acceleration-std>
+	<deformation-parameters>
+		<exponential-type>euclidean</exponential-type>
+		<number-of-sources>15</number-of-sources>
+		<t0>72.5</t0>
+		<v0>output/LongitudinalMetricModel_v0.txt</v0>
+		<p0>output/LongitudinalMetricModel_p0.txt</p0>
+	</deformation-parameters>
+	<initial-sources>output/LongitudinalMetricModel_sources.txt</initial-sources>
+	<initial-modulation-matrix>output/LongitudinalMetricModel_modulation_matrix.txt</initial-modulation-matrix>
+	<initial-onset-ages>output/LongitudinalMetricModel_onset_ages.txt</initial-onset-ages>
+	<initial-log-accelerations>output/LongitudinalMetricModel_log_accelerations.txt</initial-log-accelerations>
+</data-set>
+
+
+
