@@ -111,7 +111,7 @@ def initialize_CAE(logger, model, path_CAE=None):
     logger.info(f"Model has a total of {sum(p.numel() for p in autoencoder.parameters() if p.requires_grad)} parameters")
     return autoencoder
 
-def instantiate_longitudinal_auto_encoder_model(logger, path_data, path_CAE=None, path_LAE=None,
+def instantiate_longitudinal_auto_encoder_model(logger, path_data, path_CAE=None,
                                                 dataset=None, xml_parameters=None, number_of_subjects=None):
 
     model = LongitudinalAutoEncoder()
@@ -135,21 +135,9 @@ def instantiate_longitudinal_auto_encoder_model(logger, path_data, path_CAE=None
     _, model.test_encoded = model.CAE.evaluate(model.test_images)
     model.full_encoded = torch.cat((model.train_encoded, model.test_encoded))
 
-    # Initialize the LAE
-    if path_LAE is not None:
-        model.LAE = initialize_LAE(logger, model, path_LAE=path_LAE)
-        model.observation_type = 'scalar'
-
-        # Then initialize the actual latent variables that constitute our longitudinal dataset
-        train_data = Dataset(model.full_encoded, model.full_labels, model.full_timepoints)
-        _, initial_latent_representation = model.LAE.evaluate(train_data)
-        group, timepoints = [label[0] for label in model.train_labels], [label[1] for label in model.train_labels]
-        dataset = create_scalar_dataset(group, initial_latent_representation.numpy(), timepoints)
-
-    else:
-        model.observation_type = 'scalar'
-        group, timepoints = model.full_labels, model.full_timepoints
-        dataset = create_scalar_dataset(group, model.full_encoded.numpy(), timepoints)
+    model.observation_type = 'scalar'
+    group, timepoints = model.full_labels, model.full_timepoints
+    dataset = create_scalar_dataset(group, model.full_encoded.numpy(), timepoints)
 
     # Then initialize the longitudinal model for the latent space
     if dataset is not None:
@@ -283,7 +271,7 @@ def instantiate_longitudinal_auto_encoder_model(logger, path_data, path_CAE=None
 
     return model, dataset, individual_RER
 
-def estimate_longitudinal_auto_encoder_model(logger, path_data, path_CAE, path_LAE, xml_parameters=None, number_of_subjects=None):
+def estimate_longitudinal_auto_encoder_model(logger, path_data, path_CAE, xml_parameters=None, number_of_subjects=None):
     logger.info('')
     logger.info('[ estimate_longitudinal_auto_encoder_model function ]')
 
@@ -292,7 +280,7 @@ def estimate_longitudinal_auto_encoder_model(logger, path_data, path_CAE, path_L
         image_data = Dataset(torch_data['data'].unsqueeze(1).float(), torch_data['labels'], torch_data['timepoints'])
         number_of_subjects = len(np.unique(image_data.labels))
 
-    model, dataset, individual_RER = instantiate_longitudinal_auto_encoder_model(logger, path_data, path_CAE=path_CAE, path_LAE=path_LAE,
+    model, dataset, individual_RER = instantiate_longitudinal_auto_encoder_model(logger, path_data, path_CAE=path_CAE,
                                                                         number_of_subjects=number_of_subjects, xml_parameters=xml_parameters)
 
     sampler = SrwMhwgSampler()
@@ -358,7 +346,6 @@ def estimate_longitudinal_auto_encoder_model(logger, path_data, path_CAE, path_L
 def main():
     path_data = 'ADNI_data/ADNI_t1'
     path_CAE = 'CVAE_3D_t1'
-    path_LAE = None
     #xml_parameters = dfca.io.XmlParameters()
     #xml_parameters._read_model_xml('model.xml')
     #xml_parameters.freeze_v0 = True
@@ -370,7 +357,7 @@ def main():
     Settings().max_iterations = 300
     Settings().output_dir = 'output'
     deformetrica = dfca.Deformetrica(output_dir='output', verbosity=logger.level)
-    estimate_longitudinal_auto_encoder_model(logger, path_data, path_CAE, path_LAE, xml_parameters=xml_parameters)
+    estimate_longitudinal_auto_encoder_model(logger, path_data, path_CAE, xml_parameters=xml_parameters)
 
 if __name__ == "__main__":
     main()

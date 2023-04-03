@@ -60,9 +60,8 @@ class LongitudinalAutoEncoder(AbstractStatisticalModel):
         self.test_encoded = None
         self.full_encoded = None            
 
-        # Instantiate the auto-encoders
+        # Instantiate the auto-encoder
         self.CAE = None
-        self.LAE = None
 
         # Whether there is a parallel transport to compute (not in 1D for instance.)
         self.no_parallel_transport = False

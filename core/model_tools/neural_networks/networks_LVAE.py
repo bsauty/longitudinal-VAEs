@@ -1209,7 +1209,7 @@ def main():
     optimizer_fn = optim.Adam
     optimizer = optimizer_fn(autoencoder.parameters(), lr=lr)
     autoencoder.train_(train_loader, test=test, criterion=criterion, optimizer=optimizer, num_epochs=epochs)
-    torch.save(autoencoder.state_dict(), path_LAE)
+    torch.save(autoencoder.state_dict(), "debug")
 
     return autoencoder
 
