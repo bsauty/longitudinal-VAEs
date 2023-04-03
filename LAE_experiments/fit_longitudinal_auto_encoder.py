@@ -346,17 +346,10 @@ def estimate_longitudinal_auto_encoder_model(logger, path_data, path_CAE, xml_pa
 def main():
     path_data = 'ADNI_data/ADNI_t1'
     path_CAE = 'CVAE_3D_t1'
-    #xml_parameters = dfca.io.XmlParameters()
-    #xml_parameters._read_model_xml('model.xml')
-    #xml_parameters.freeze_v0 = True
-    #xml_parameters.freeze_p0 = True
-    #xml_parameters.freeze_modulation_matrix = True
-    xml_parameters = None
-    Settings().dimension = 8
-    Settings().number_of_sources = 7
-    Settings().max_iterations = 300
-    Settings().output_dir = 'output'
-    deformetrica = dfca.Deformetrica(output_dir='output', verbosity=logger.level)
+    xml_parameters = dfca.io.XmlParameters()
+    xml_parameters._read_model_xml('model.xml')
+    Settings().output_dir = 'output
+    deformetrica = dfca.Deformetrica(output_dir=Settings().output_dir, verbosity=logger.level)
     estimate_longitudinal_auto_encoder_model(logger, path_data, path_CAE, xml_parameters=xml_parameters)
 
 if __name__ == "__main__":
