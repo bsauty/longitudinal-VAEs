@@ -14,25 +14,25 @@ from copy import deepcopy
 import torch.nn as nn
 import torch.optim as optim
 
-sys.path.append('/home/benoit.sautydechalon/deformetrica')
+sys.path.append('/home/XXX-PUT-DIRECTORY-HERE-XXX/LONGITUDINAL-VAES')
 import deformetrica as dfca
 
-from deformetrica.core.estimator_tools.samplers.srw_mhwg_sampler import SrwMhwgSampler
-from deformetrica.core.estimators.gradient_ascent import GradientAscent
-from deformetrica.core.estimators.mcmc_saem import McmcSaem
+from LONGITUDINAL-VAES.core.estimator_tools.samplers.srw_mhwg_sampler import SrwMhwgSampler
+from LONGITUDINAL-VAES.core.estimators.gradient_ascent import GradientAscent
+from LONGITUDINAL-VAES.core.estimators.mcmc_saem import McmcSaem
 # Estimators
-from deformetrica.core.estimators.scipy_optimize import ScipyOptimize
-from deformetrica.core.model_tools.manifolds.exponential_factory import ExponentialFactory
-from deformetrica.core.model_tools.manifolds.generic_spatiotemporal_reference_frame import GenericSpatiotemporalReferenceFrame
-from deformetrica.core.model_tools.neural_networks.networks_LVAE import Dataset, CVAE_2D, CVAE_3D, VAE_GAN
-from deformetrica.in_out.array_readers_and_writers import *
-from deformetrica.core import default
-from deformetrica.in_out.dataset_functions import create_scalar_dataset
-from deformetrica.support.probability_distributions.multi_scalar_normal_distribution import MultiScalarNormalDistribution
-from deformetrica.support.utilities.general_settings import Settings
-from deformetrica.core.models import LongitudinalAutoEncoder
+from LONGITUDINAL-VAES.core.estimators.scipy_optimize import ScipyOptimize
+from LONGITUDINAL-VAES.core.model_tools.manifolds.exponential_factory import ExponentialFactory
+from LONGITUDINAL-VAES.core.model_tools.manifolds.generic_spatiotemporal_reference_frame import GenericSpatiotemporalReferenceFrame
+from LONGITUDINAL-VAES.core.model_tools.neural_networks.networks_LVAE import Dataset, CVAE_2D, CVAE_3D, VAE_GAN
+from LONGITUDINAL-VAES.in_out.array_readers_and_writers import *
+from LONGITUDINAL-VAES.core import default
+from LONGITUDINAL-VAES.in_out.dataset_functions import create_scalar_dataset
+from LONGITUDINAL-VAES.support.probability_distributions.multi_scalar_normal_distribution import MultiScalarNormalDistribution
+from LONGITUDINAL-VAES.support.utilities.general_settings import Settings
+from LONGITUDINAL-VAES.core.models import LongitudinalAutoEncoder
 
-from deformetrica.support.utilities.general_settings import Settings
+from LONGITUDINAL-VAES.support.utilities.general_settings import Settings
 
 logger = logging.getLogger(__name__)
 

@@ -7,8 +7,7 @@ from torch.utils import data
 import numpy as np
 import sys
 
-sys.path.append('/home/benoit.sautydechalon/deformetrica')
-import deformetrica as dfca
+sys.path.append('/home/XXX-PUT-PATH-HERE/LONGITUDINAL-VAES')
 
 from time import time
 import random
@@ -16,8 +15,7 @@ import logging
 from PIL import Image
 from matplotlib import pyplot as plt
 import matplotlib.cm
-from deformetrica.support.utilities.general_settings import Settings
-from deformetrica.core.model_tools.neural_networks.parzen_mutual_information import parzen_mutual_information_loss
+from LONGITUDINAL-VAES.support.utilities.general_settings import Settings
 
 # This is a dirty workaround for a  problem with pytorch and osx that mismanage openMP
 import os
@@ -1176,44 +1174,3 @@ def fig2rgb_array(fig):
     data = np.fromstring(fig.canvas.tostring_rgb(), dtype=np.uint8, sep='')
     data = data.reshape(fig.canvas.get_width_height()[::-1] + (3,))
     return(data)
-
-def main():
-    """
-    For debugging purposes only, once the architectures and training routines are efficient,
-    this file will not be called as a script anymore.
-    """
-    print
-    logger.info("DEBUGGING THE network.py FILE")
-    logger.info(f"Device is {device}")
-
-    epochs = 250
-    batch_size = 1
-    lr = 1e-3
-
-    # Load data
-    train_data = torch.load('../../../LAE_experiments/Starmen_data/Starmen_100')
-    print(f"Loaded {len(train_data['data'])} scans")
-    train_data['data'].requires_grad = False
-    torch_data = Dataset(train_data['data'].unsqueeze(1).float(), train_data['labels'], train_data['timepoints'])
-    train, test = torch.utils.data.random_split(torch_data.data, [len(torch_data)-2, 2])
-    
-    autoencoder = CVAE_2D()
-    criterion = parzen_mutual_information_loss
-    #criterion = autoencoder.mi_loss
-    train_loader = torch.utils.data.DataLoader(train, batch_size=batch_size,
-                                              shuffle=True, num_workers=1, drop_last=True)
-    print(f"Model has a total of {sum(p.numel() for p in autoencoder.parameters())} parameters")
-
-    size = len(train)
-
-    optimizer_fn = optim.Adam
-    optimizer = optimizer_fn(autoencoder.parameters(), lr=lr)
-    autoencoder.train_(train_loader, test=test, criterion=criterion, optimizer=optimizer, num_epochs=epochs)
-    torch.save(autoencoder.state_dict(), "debug")
-
-    return autoencoder
-
-
-
-if __name__ == '__main__':
-    main()
